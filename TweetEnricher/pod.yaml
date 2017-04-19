@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tweet-enricher-ms
+  labels:
+    app: tweet-enricher-ms
+spec:
+  nodeName: minikube
+  containers:
+  - name: tweet-enricher
+    # get latest version of image
+    image: lucasjellema/tweet-enricher:1
+    ports:
+    # containerPort is the port exposed by the container (where nodejs express api is listening)
+    - containerPort: 8098
+    lifecycle:
+      postStart:
+        exec:
+          # add ubuntu to hosts file
+          # command: ["cat","192.168.188.101","ubuntu",">","/etc/hosts"]
+          command: ["sh","-c","echo 192.168.188.101 ubuntu > /etc/hosts"]
+    volumeMounts:
+    - mountPath: /var/log/nginx
+      name: nginx-logs
+  volumes:
+  - name: nginx-logs
+    emptyDir: {}

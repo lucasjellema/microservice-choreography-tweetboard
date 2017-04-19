@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tweet-validator-ms
+  labels:
+    app: tweet-validator-ms
+spec:
+  nodeName: minikube
+  containers:
+  - name: tweet-validator
+    # get latest version of image
+    image: lucasjellema/tweet-validator:8
+    ports:
+    # containerPort is the port exposed by the container (where nodejs express api is listening)
+    - containerPort: 8091
+    lifecycle:
+      postStart:
+        exec:
+          # add ubuntu to hosts file
+          # command: ["cat","192.168.188.101","ubuntu",">","/etc/hosts"]
+          command: ["sh","-c","echo 192.168.188.101 ubuntu > /etc/hosts"]
+    volumeMounts:
+    - mountPath: /var/log/nginx
+      name: nginx-logs
+  volumes:
+  - name: nginx-logs
+    emptyDir: {}

@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tweet-validator-ms
+spec:
+  nodeName: minikube
+  containers:
+  - name: tweet-validator-ms
+    image: lucasjellema/tweet-validator:6
+    ports:
+    - containerPort: 8091
+    lifecycle:
+      postStart:
+        exec:
+          # add ubuntu to hosts file
+          # command: ["cat","192.168.188.101","ubuntu",">","/etc/hosts"]
+          command: ["sh","-c,"echo 192.168.188.101 ubuntu > /etc/hosts"]
+      preStop:
+        exec:
+          # SIGTERM triggers a quick exit; gracefully terminate instead
+          command: ["/usr/sbin/nginx","-s","quit"]
+    volumeMounts:
+    - mountPath: /var/log/nginx
+      name: nginx-logs
+  volumes:
+  - name: nginx-logs
+    emptyDir: {}

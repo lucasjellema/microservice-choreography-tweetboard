@@ -1,0 +1,22 @@
+{
+  "name": "logger",
+  "version": "0.0.2",
+  "description": "Microservice - consumes log events from local Kafka Topic; pushes log events to Logger API in cloud (and onwards to OMC)",
+  "main": "Logger.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "kafka",
+    "node",
+    "js",
+    "produce",
+    "consume"
+  ],
+  "author": "Lucas Jellema",
+  "license": "ISC",
+  "dependencies": {
+    "kafka-node": "^1.3.4",
+    "request": "^2.81.0"
+  }
+}

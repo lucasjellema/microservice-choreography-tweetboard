@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: event-bridge-ms
+  labels:
+    app: event-bridge-ms
+spec:
+  nodeName: minikube
+  containers:
+  - name: event-bridge
+    # get latest version of image
+    image: lucasjellema/event-bridge
+    ports:
+    # containerPort is the port exposed by the container (where nodejs express api is listening)
+    - containerPort: 8095
+    lifecycle:
+      postStart:
+        exec:
+          # add ubuntu to hosts file
+          # command: ["cat","192.168.188.101","ubuntu",">","/etc/hosts"]
+          command: ["sh","-c","echo 192.168.188.101 ubuntu > /etc/hosts"]
