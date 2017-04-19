@@ -1,0 +1,22 @@
+# run minikube
+minikube.exe start
+# open dashboard
+minikube dashboard
+
+minikube status 
+
+cd .\ValidateTweet
+kubectl create -f pod.yaml
+
+cd ..\TweetEnricher
+kubectl create -f pod.yaml
+
+cd ..\WorkflowLauncher
+kubectl create -f pod.yaml
+
+cd ..\TweetBoard
+create -f pod.yaml
+
+kubectl.exe expose pod tweet-enricher-ms --type=NodePort
+kubectl.exe expose pod tweet-validator-ms --type=NodePort
+kubectl.exe expose pod tweet-board-ms --type=NodePort
